@@ -3,7 +3,6 @@ function contaioner = getAllofCertainTypeBuilding(namelist)
 %   此处显示详细说明
 contaioner = zeros(9123124,1);
 for i=1:length(namelist)
-    currContainer=zeros(9123124,1);
     currdata = importdata(join(['../train/' namelist(i)],''));
     if iscell(currdata)
         getNum = split(currdata);
@@ -16,11 +15,12 @@ for i=1:length(namelist)
     if size(getNum,2)<2
         getNum=getNum';
     end
-    
-    getSepDate = split(getNum(1,2),',');
-    arrivedIndicator = cell2mat(cellfun(@getIndivialData , getSepDate,'UniformOutput' ,false));
-    currContainer(arrivedIndicator)=ones(length(arrivedIndicator),1);
-    contaioner = contaioner + currContainer;
 end
+fullinOneLine = join(getNum(:,2),',');
+getSepDate = split(fullinOneLine,',');
+arrivedIndicator = cell2mat(cellfun(@getIndivialData , getSepDate,'UniformOutput' ,false));
+contaioner(arrivedIndicator)=ones(length(arrivedIndicator),1);
+
+
 end
 
